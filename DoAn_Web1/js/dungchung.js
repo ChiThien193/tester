@@ -62,6 +62,8 @@ function khoiTao() {
         ho: "Default",
         ten: "User",
         email: "default@example.com",
+        products: [],
+        donhang: []
     };
     setCurrentUser(defaultUser);
 
