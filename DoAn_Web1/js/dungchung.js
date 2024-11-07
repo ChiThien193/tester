@@ -18,7 +18,6 @@ function getCurrentUser() {
 }
 
 function setCurrentUser(u) {
-    console.log('setCurrentUser:', u);
     window.localStorage.setItem('CurrentUser', JSON.stringify(u));
 }
 
@@ -53,7 +52,6 @@ function themVaoGioHang(masp, tensp) {
         });
     }
 
-    console.log('Updated user products:', user.products);
     animateCartNumber();
     addAlertBox('Đã thêm ' + tensp + ' vào giỏ.', '#17c671', '#fff', 3500);
 
@@ -107,8 +105,6 @@ function khoiTao() {
     addEventCloseAlertButton();
 }
 
-// ========= Các hàm liên quan tới danh sách sản phẩm =========
-// Localstorage cho dssp: 'ListProducts
 function setListProducts(newList) {
     window.localStorage.setItem('ListProducts', JSON.stringify(newList));
 }
