@@ -41,6 +41,7 @@ function themVaoGioHang(masp, tensp) {
         });
     }
 
+    console.log('Updated user products:', user.products);
     animateCartNumber();
     addAlertBox('Đã thêm ' + tensp + ' vào giỏ.', '#17c671', '#fff', 3500);
 
@@ -49,7 +50,6 @@ function themVaoGioHang(masp, tensp) {
     capNhat_ThongTin_CurrentUser(); // cập nhật giỏ hàng
 }
 
-
 function khoiTao() {
     // get data từ localstorage
     list_products = getListProducts() || list_products;
@@ -57,7 +57,7 @@ function khoiTao() {
 
     // Set a specific user as the current user
     var defaultUser = {
-        username: "Nhom005",
+        username: "Nhom0005",
         pass: "defaultPass",
         ho: "Default",
         ten: "User",
@@ -72,10 +72,25 @@ function khoiTao() {
     addEventCloseAlertButton();
 }
 
-function setCurrentUser(u) {
-    window.localStorage.setItem('CurrentUser', JSON.stringify(u));
+function getCurrentUser() {
+    const user = JSON.parse(window.localStorage.getItem('CurrentUser'));
+    console.log('getCurrentUser:', user);
+    return user; // Lấy dữ liệu từ localstorage
 }
 
+function getTongSoLuongSanPhamTrongGioHang(u) {
+    var soluong = 0;
+    for (var p of u.products) {
+        soluong += p.soluong;
+    }
+    console.log('Total products in cart:', soluong);
+    return soluong;
+}
+
+function setCurrentUser(u) {
+    console.log('setCurrentUser:', u);
+    window.localStorage.setItem('CurrentUser', JSON.stringify(u));
+}
 function capNhat_ThongTin_CurrentUser() {
     var u = getCurrentUser();
     if (u) {
@@ -176,10 +191,6 @@ function animateCartNumber() {
 // ============================== TÀI KHOẢN ============================
 
 // Hàm get set cho người dùng hiện tại đã đăng nhập
-function getCurrentUser() {
-    return JSON.parse(window.localStorage.getItem('CurrentUser')); // Lấy dữ liệu từ localstorage
-}
-
 
 // Hàm get set cho danh sách người dùng
 function getListUser() {
@@ -369,14 +380,6 @@ function setupEventTaiKhoan() {
 // Cập nhật số lượng hàng trong giỏ hàng + Tên current user
 
 // tính tổng số lượng các sản phẩm của user u truyền vào
-function getTongSoLuongSanPhamTrongGioHang(u) {
-    var soluong = 0;
-    for (var p of u.products) {
-        soluong += p.soluong;
-    }
-    return soluong;
-}
-
 // lấy số lương của sản phẩm NÀO ĐÓ của user NÀO ĐÓ được truyền vào
 function getSoLuongSanPhamTrongUser(tenSanPham, user) {
     for (var p of user.products) {
