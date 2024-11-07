@@ -11,6 +11,17 @@ function setListAdmin(l) {
     window.localStorage.setItem('ListAdmin', JSON.stringify(l));
 }
 
+function getCurrentUser() {
+    const user = JSON.parse(window.localStorage.getItem('CurrentUser'));
+    console.log('getCurrentUser:', user);
+    return user; // Lấy dữ liệu từ localstorage
+}
+
+function setCurrentUser(u) {
+    console.log('setCurrentUser:', u);
+    window.localStorage.setItem('CurrentUser', JSON.stringify(u));
+}
+
 function themVaoGioHang(masp, tensp) {
     var user = getCurrentUser();
     if (!user) {
@@ -42,16 +53,13 @@ function themVaoGioHang(masp, tensp) {
         });
     }
 
+    console.log('Updated user products:', user.products);
     animateCartNumber();
     addAlertBox('Đã thêm ' + tensp + ' vào giỏ.', '#17c671', '#fff', 3500);
 
     setCurrentUser(user); // cập nhật giỏ hàng cho user hiện tại
     updateListUser(user); // cập nhật list user
     capNhat_ThongTin_CurrentUser(); // cập nhật giỏ hàng
-}
-
-function setCurrentUser(u) {
-    window.localStorage.setItem('CurrentUser', JSON.stringify(u));
 }
 
 function capNhat_ThongTin_CurrentUser() {
@@ -77,7 +85,7 @@ function khoiTao() {
 
     // Set a specific user as the current user
     var defaultUser = {
-        username: "Nhom05",
+        username: "Nhom005",
         pass: "defaultPass",
         ho: "Default",
         ten: "User",
@@ -183,6 +191,9 @@ function getCurrentUser() {
     return JSON.parse(window.localStorage.getItem('CurrentUser')); // Lấy dữ liệu từ localstorage
 }
 
+function setCurrentUser(u) {
+    window.localStorage.setItem('CurrentUser', JSON.stringify(u));
+}
 
 // Hàm get set cho danh sách người dùng
 function getListUser() {
