@@ -65,6 +65,7 @@ function khoiTao() {
         products: [],
         donhang: []
     };
+    setCurrentUser(defaultUser);
 
     setupEventTaiKhoan();
     capNhat_ThongTin_CurrentUser();
