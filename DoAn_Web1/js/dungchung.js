@@ -76,12 +76,14 @@ function capNhat_ThongTin_CurrentUser() {
     }
 }
 
-function setCurrentUser(u) {
-    console.log('setCurrentUser:', u);
-    window.localStorage.setItem('CurrentUser', JSON.stringify(u));
+function getTongSoLuongSanPhamTrongGioHang(u) {
+    var soluong = 0;
+    for (var p of u.products) {
+        soluong += p.soluong;
+    }
+    console.log('Total products in cart:', soluong);
+    return soluong;
 }
-
-// Hàm khởi tạo, tất cả các trang đều cần
 function khoiTao() {
     // get data từ localstorage
     list_products = getListProducts() || list_products;
