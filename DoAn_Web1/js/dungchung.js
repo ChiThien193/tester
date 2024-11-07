@@ -53,7 +53,6 @@ function themVaoGioHang(masp, tensp) {
         });
     }
 
-    console.log('Updated user products:', user.products);
     animateCartNumber();
     addAlertBox('Đã thêm ' + tensp + ' vào giỏ.', '#17c671', '#fff', 3500);
 
