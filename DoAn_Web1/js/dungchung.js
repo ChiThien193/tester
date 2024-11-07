@@ -18,7 +18,6 @@ function getCurrentUser() {
 }
 
 function setCurrentUser(u) {
-    console.log('setCurrentUser:', u);
     window.localStorage.setItem('CurrentUser', JSON.stringify(u));
 }
 
