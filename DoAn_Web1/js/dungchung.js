@@ -57,7 +57,7 @@ function khoiTao() {
 
     // Set a specific user as the current user
     var defaultUser = {
-        username: "Nhom05",
+        username: "Nhom01",
         pass: "defaultPass",
         ho: "Default",
         ten: "User",
@@ -65,6 +65,7 @@ function khoiTao() {
         products: [],
         donhang: []
     };
+    setCurrentUser(defaultUser);
 
     setupEventTaiKhoan();
     capNhat_ThongTin_CurrentUser();
