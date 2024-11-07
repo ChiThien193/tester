@@ -12,35 +12,33 @@ function setListAdmin(l) {
 }
 
 
-// function khoiTao() {
-//     // get data từ localstorage
-//     list_products = getListProducts() || list_products;
-//     adminInfo = getListAdmin() || adminInfo;
-
-//     // Set a specific user as the current user
-//     var defaultUser = {
-//         username: "Nhom05",
-//         pass: "defaultPass",
-//         ho: "Default",
-//         ten: "User",
-//         email: "default@example.com",
-//         products: [],
-//         donhang: []
-//     };
-
-//     setupEventTaiKhoan();
-//     capNhat_ThongTin_CurrentUser();
-//     addEventCloseAlertButton();
-// }
 function khoiTao() {
     // get data từ localstorage
     list_products = getListProducts() || list_products;
     adminInfo = getListAdmin() || adminInfo;
 
+    // Set a specific user as the current user
+    var defaultUser = {
+        username: "Nhom05",
+        pass: "defaultPass",
+        ho: "Default",
+        ten: "User",
+        email: "default@example.com",
+    };
+
     setupEventTaiKhoan();
     capNhat_ThongTin_CurrentUser();
     addEventCloseAlertButton();
 }
+// function khoiTao() {
+//     // get data từ localstorage
+//     list_products = getListProducts() || list_products;
+//     adminInfo = getListAdmin() || adminInfo;
+
+//     setupEventTaiKhoan();
+//     capNhat_ThongTin_CurrentUser();
+//     addEventCloseAlertButton();
+// }
 
 // ========= Các hàm liên quan tới danh sách sản phẩm =========
 // Localstorage cho dssp: 'ListProducts
