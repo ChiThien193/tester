@@ -57,7 +57,7 @@ function khoiTao() {
 
     // Set a specific user as the current user
     var defaultUser = {
-        username: "Nhom0005",
+        username: "Nhom05",
         pass: "defaultPass",
         ho: "Default",
         ten: "User",
