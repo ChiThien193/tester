@@ -10,6 +10,44 @@ function getListAdmin() {
 function setListAdmin(l) {
     window.localStorage.setItem('ListAdmin', JSON.stringify(l));
 }
+function themVaoGioHang(masp, tensp) {
+    var user = getCurrentUser();
+    if (!user) {
+        alert('Bạn cần đăng nhập để mua hàng !');
+        showTaiKhoan(true);
+        return;
+    }
+    if (user.off) {
+        alert('Tài khoản của bạn hiện đang bị khóa nên không thể mua hàng!');
+        addAlertBox('Tài khoản của bạn đã bị khóa bởi Admin.', '#aa0000', '#fff', 10000);
+        return;
+    }
+    var t = new Date();
+    var daCoSanPham = false;
+
+    for (var i = 0; i < user.products.length; i++) { // check trùng sản phẩm
+        if (user.products[i].ma == masp) {
+            user.products[i].soluong++;
+            daCoSanPham = true;
+            break;
+        }
+    }
+
+    if (!daCoSanPham) { // nếu không trùng thì mới thêm sản phẩm vào user.products
+        user.products.push({
+            "ma": masp,
+            "soluong": 1,
+            "date": t
+        });
+    }
+
+    animateCartNumber();
+    addAlertBox('Đã thêm ' + tensp + ' vào giỏ.', '#17c671', '#fff', 3500);
+
+    setCurrentUser(user); // cập nhật giỏ hàng cho user hiện tại
+    updateListUser(user); // cập nhật list user
+    capNhat_ThongTin_CurrentUser(); // cập nhật giỏ hàng
+}
 
 
 function khoiTao() {
@@ -24,21 +62,33 @@ function khoiTao() {
         ho: "Default",
         ten: "User",
         email: "default@example.com",
+        products: [],
+        donhang: []
     };
+    setCurrentUser(defaultUser);
 
     setupEventTaiKhoan();
     capNhat_ThongTin_CurrentUser();
     addEventCloseAlertButton();
 }
-// function khoiTao() {
-//     // get data từ localstorage
-//     list_products = getListProducts() || list_products;
-//     adminInfo = getListAdmin() || adminInfo;
 
-//     setupEventTaiKhoan();
-//     capNhat_ThongTin_CurrentUser();
-//     addEventCloseAlertButton();
-// }
+function setCurrentUser(u) {
+    window.localStorage.setItem('CurrentUser', JSON.stringify(u));
+}
+
+function capNhat_ThongTin_CurrentUser() {
+    var u = getCurrentUser();
+    if (u) {
+        // Cập nhật số lượng hàng vào header
+        document.getElementsByClassName('cart-number')[0].innerHTML = getTongSoLuongSanPhamTrongGioHang(u);
+        // Cập nhật tên người dùng
+        document.getElementsByClassName('member')[0]
+            .getElementsByTagName('a')[0].childNodes[2].nodeValue = ' ' + u.username;
+        // bỏ class hide của menu người dùng
+        document.getElementsByClassName('menuMember')[0]
+            .classList.remove('hide');
+    }
+}
 
 // ========= Các hàm liên quan tới danh sách sản phẩm =========
 // Localstorage cho dssp: 'ListProducts
@@ -123,45 +173,6 @@ function animateCartNumber() {
     }, 1200);
 }
 
-function themVaoGioHang(masp, tensp) {
-    var user = getCurrentUser();
-    if (!user) {
-        alert('Bạn cần đăng nhập để mua hàng !');
-        showTaiKhoan(true);
-        return;
-    }
-    if (user.off) {
-        alert('Tài khoản của bạn hiện đang bị khóa nên không thể mua hàng!');
-        addAlertBox('Tài khoản của bạn đã bị khóa bởi Admin.', '#aa0000', '#fff', 10000);
-        return;
-    }
-    var t = new Date();
-    var daCoSanPham = false;;
-
-    for (var i = 0; i < user.products.length; i++) { // check trùng sản phẩm
-        if (user.products[i].ma == masp) {
-            user.products[i].soluong++;
-            daCoSanPham = true;
-            break;
-        }
-    }
-
-    if (!daCoSanPham) { // nếu không trùng thì mới thêm sản phẩm vào user.products
-        user.products.push({
-            "ma": masp,
-            "soluong": 1,
-            "date": t
-        });
-    }
-
-    animateCartNumber();
-    addAlertBox('Đã thêm ' + tensp + ' vào giỏ.', '#17c671', '#fff', 3500);
-
-    setCurrentUser(user); // cập nhật giỏ hàng cho user hiện tại
-    updateListUser(user); // cập nhật list user
-    capNhat_ThongTin_CurrentUser(); // cập nhật giỏ hàng
-}
-
 // ============================== TÀI KHOẢN ============================
 
 // Hàm get set cho người dùng hiện tại đã đăng nhập
@@ -169,9 +180,6 @@ function getCurrentUser() {
     return JSON.parse(window.localStorage.getItem('CurrentUser')); // Lấy dữ liệu từ localstorage
 }
 
-function setCurrentUser(u) {
-    window.localStorage.setItem('CurrentUser', JSON.stringify(u));
-}
 
 // Hàm get set cho danh sách người dùng
 function getListUser() {
@@ -359,19 +367,6 @@ function setupEventTaiKhoan() {
 }
 
 // Cập nhật số lượng hàng trong giỏ hàng + Tên current user
-function capNhat_ThongTin_CurrentUser() {
-    var u = getCurrentUser();
-    if (u) {
-        // Cập nhật số lượng hàng vào header
-        document.getElementsByClassName('cart-number')[0].innerHTML = getTongSoLuongSanPhamTrongGioHang(u);
-        // Cập nhật tên người dùng
-        document.getElementsByClassName('member')[0]
-            .getElementsByTagName('a')[0].childNodes[2].nodeValue = ' ' + u.username;
-        // bỏ class hide của menu người dùng
-        document.getElementsByClassName('menuMember')[0]
-            .classList.remove('hide');
-    }
-}
 
 // tính tổng số lượng các sản phẩm của user u truyền vào
 function getTongSoLuongSanPhamTrongGioHang(u) {
