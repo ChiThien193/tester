@@ -109,6 +109,15 @@ function setListProducts(newList) {
     window.localStorage.setItem('ListProducts', JSON.stringify(newList));
 }
 
+function getTongSoLuongSanPhamTrongGioHang(u) {
+    var soluong = 0;
+    for (var p of u.products) {
+        soluong += p.soluong;
+    }
+    console.log('Total products in cart:', soluong);
+    return soluong;
+}
+
 function getListProducts() {
     return JSON.parse(window.localStorage.getItem('ListProducts'));
 }
@@ -384,15 +393,6 @@ function setupEventTaiKhoan() {
 }
 
 // Cập nhật số lượng hàng trong giỏ hàng + Tên current user
-
-// tính tổng số lượng các sản phẩm của user u truyền vào
-function getTongSoLuongSanPhamTrongGioHang(u) {
-    var soluong = 0;
-    for (var p of u.products) {
-        soluong += p.soluong;
-    }
-    return soluong;
-}
 
 // lấy số lương của sản phẩm NÀO ĐÓ của user NÀO ĐÓ được truyền vào
 function getSoLuongSanPhamTrongUser(tenSanPham, user) {
