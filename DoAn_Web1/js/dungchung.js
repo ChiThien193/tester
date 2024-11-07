@@ -47,7 +47,10 @@ function getCurrentUser() {
     console.log('getCurrentUser:', user);
     return user; // Lấy dữ liệu từ localstorage
 }
-
+function setCurrentUser(u) {
+    console.log('setCurrentUser:', u);
+    window.localStorage.setItem('CurrentUser', JSON.stringify(u));
+}
 function getListProducts() {
     return JSON.parse(window.localStorage.getItem('ListProducts'));
 }
@@ -168,9 +171,6 @@ function themVaoGioHang(masp, tensp) {
 
 // Hàm get set cho người dùng hiện tại đã đăng nhập
 
-function setCurrentUser(u) {
-    window.localStorage.setItem('CurrentUser', JSON.stringify(u));
-}
 
 // Hàm get set cho danh sách người dùng
 function getListUser() {
