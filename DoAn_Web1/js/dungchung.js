@@ -11,109 +11,12 @@ function setListAdmin(l) {
     window.localStorage.setItem('ListAdmin', JSON.stringify(l));
 }
 
-function logIn(form) {
-    // Lấy dữ liệu từ form
-    var name = form.username.value;
-    var pass = form.pass.value;
-    var newUser = new User(name, pass);
 
-    // Lấy dữ liệu từ danh sách người dùng localstorage
-    var listUser = getListUser();
-
-    // Kiểm tra xem dữ liệu form có khớp với người dùng nào trong danh sách ko
-    for (var u of listUser) {
-        if (equalUser(newUser, u)) {
-            if(u.off) {
-                alert('Tài khoản này đang bị khoá. Không thể đăng nhập.');
-                return false;
-            }
-
-            setCurrentUser(u);
-
-            // Reload lại trang -> sau khi reload sẽ cập nhật luôn giỏ hàng khi hàm setupEventTaiKhoan chạy
-            location.reload();
-            return false;
-        }
-    }
-
-    // Đăng nhập vào admin
-    for (var ad of adminInfo) {
-        if (equalUser(newUser, ad)) {
-            alert('Xin chào admin .. ');
-            window.localStorage.setItem('admin', true);
-            window.location.assign('admin.html');
-            return false;
-        }
-    }
-
-    // Trả về thông báo nếu không khớp
-    alert('Nhập sai tên hoặc mật khẩu !!!');
-    form.username.focus();
-    return false;
-}
-
-function getCurrentUser() {
-    return JSON.parse(window.localStorage.getItem('CurrentUser')); // Lấy dữ liệu từ localstorage
-}
-
-function setCurrentUser(u) {
-    window.localStorage.setItem('CurrentUser', JSON.stringify(u));
-}
-
-function themVaoGioHang(masp, tensp) {
-    var user = getCurrentUser();
-    if (!user) {
-        alert('Bạn cần đăng nhập để mua hàng !');
-        showTaiKhoan(true);
-        return;
-    }
-    if (user.off) {
-        alert('Tài khoản của bạn hiện đang bị khóa nên không thể mua hàng!');
-        addAlertBox('Tài khoản của bạn đã bị khóa bởi Admin.', '#aa0000', '#fff', 10000);
-        return;
-    }
-    var t = new Date();
-    var daCoSanPham = false;
-
-    for (var i = 0; i < user.products.length; i++) { // check trùng sản phẩm
-        if (user.products[i].ma == masp) {
-            user.products[i].soluong++;
-            daCoSanPham = true;
-            break;
-        }
-    }
-
-    if (!daCoSanPham) { // nếu không trùng thì mới thêm sản phẩm vào user.products
-        user.products.push({
-            "ma": masp,
-            "soluong": 1,
-            "date": t
-        });
-    }
-
-    animateCartNumber();
-    addAlertBox('Đã thêm ' + tensp + ' vào giỏ.', '#17c671', '#fff', 3500);
-
-    setCurrentUser(user); // cập nhật giỏ hàng cho user hiện tại
-    updateListUser(user); // cập nhật list user
-    capNhat_ThongTin_CurrentUser(); // cập nhật giỏ hàng
-}
-
+// Hàm khởi tạo, tất cả các trang đều cần
 function khoiTao() {
     // get data từ localstorage
     list_products = getListProducts() || list_products;
     adminInfo = getListAdmin() || adminInfo;
-
-    var defaultUser = {
-        username: "defaultUser",
-        pass: "defaultPass",
-        ho: "Default",
-        ten: "User",
-        email: "default@example.com",
-        products: [],
-        donhang: []
-    };
-    setCurrentUser(defaultUser);
 
     setupEventTaiKhoan();
     capNhat_ThongTin_CurrentUser();
@@ -203,11 +106,55 @@ function animateCartNumber() {
     }, 1200);
 }
 
+function themVaoGioHang(masp, tensp) {
+    var user = getCurrentUser();
+    if (!user) {
+        alert('Bạn cần đăng nhập để mua hàng !');
+        showTaiKhoan(true);
+        return;
+    }
+    if (user.off) {
+        alert('Tài khoản của bạn hiện đang bị khóa nên không thể mua hàng!');
+        addAlertBox('Tài khoản của bạn đã bị khóa bởi Admin.', '#aa0000', '#fff', 10000);
+        return;
+    }
+    var t = new Date();
+    var daCoSanPham = false;;
+
+    for (var i = 0; i < user.products.length; i++) { // check trùng sản phẩm
+        if (user.products[i].ma == masp) {
+            user.products[i].soluong++;
+            daCoSanPham = true;
+            break;
+        }
+    }
+
+    if (!daCoSanPham) { // nếu không trùng thì mới thêm sản phẩm vào user.products
+        user.products.push({
+            "ma": masp,
+            "soluong": 1,
+            "date": t
+        });
+    }
+
+    animateCartNumber();
+    addAlertBox('Đã thêm ' + tensp + ' vào giỏ.', '#17c671', '#fff', 3500);
+
+    setCurrentUser(user); // cập nhật giỏ hàng cho user hiện tại
+    updateListUser(user); // cập nhật list user
+    capNhat_ThongTin_CurrentUser(); // cập nhật giỏ hàng
+}
 
 // ============================== TÀI KHOẢN ============================
 
 // Hàm get set cho người dùng hiện tại đã đăng nhập
+function getCurrentUser() {
+    return JSON.parse(window.localStorage.getItem('CurrentUser')); // Lấy dữ liệu từ localstorage
+}
 
+function setCurrentUser(u) {
+    window.localStorage.setItem('CurrentUser', JSON.stringify(u));
+}
 
 // Hàm get set cho danh sách người dùng
 function getListUser() {
@@ -234,6 +181,46 @@ function updateListUser(u, newData) {
     setListUser(list);
 }
 
+function logIn(form) {
+    // Lấy dữ liệu từ form
+    var name = form.username.value;
+    var pass = form.pass.value;
+    var newUser = new User(name, pass);
+
+    // Lấy dữ liệu từ danh sách người dùng localstorage
+    var listUser = getListUser();
+
+    // Kiểm tra xem dữ liệu form có khớp với người dùng nào trong danh sách ko
+    for (var u of listUser) {
+        if (equalUser(newUser, u)) {
+            if(u.off) {
+                alert('Tài khoản này đang bị khoá. Không thể đăng nhập.');
+                return false;
+            }
+
+            setCurrentUser(u);
+
+            // Reload lại trang -> sau khi reload sẽ cập nhật luôn giỏ hàng khi hàm setupEventTaiKhoan chạy
+            location.reload();
+            return false;
+        }
+    }
+
+    // Đăng nhập vào admin
+    for (var ad of adminInfo) {
+        if (equalUser(newUser, ad)) {
+            alert('Xin chào admin .. ');
+            window.localStorage.setItem('admin', true);
+            window.location.assign('admin.html');
+            return false;
+        }
+    }
+
+    // Trả về thông báo nếu không khớp
+    alert('Nhập sai tên hoặc mật khẩu !!!');
+    form.username.focus();
+    return false;
+}
 
 function signUp(form) {
     var ho = form.ho.value;
