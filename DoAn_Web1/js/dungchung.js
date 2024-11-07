@@ -21,7 +21,7 @@ function khoiTao() {
 
     // Set a specific user as the current user
     var defaultUser = {
-        username: "defaultUser",
+        username: "Nhom05",
         pass: "defaultPass",
         ho: "Default",
         ten: "User",
@@ -29,7 +29,7 @@ function khoiTao() {
         products: [],
         donhang: []
     };
-    setCurrentUser();
+    setCurrentUser(defaultUser);
 
     setupEventTaiKhoan();
     capNhat_ThongTin_CurrentUser();
@@ -40,6 +40,12 @@ function khoiTao() {
 // Localstorage cho dssp: 'ListProducts
 function setListProducts(newList) {
     window.localStorage.setItem('ListProducts', JSON.stringify(newList));
+}
+
+function getCurrentUser() {
+    const user = JSON.parse(window.localStorage.getItem('CurrentUser'));
+    console.log('getCurrentUser:', user);
+    return user; // Lấy dữ liệu từ localstorage
 }
 
 function getListProducts() {
@@ -161,9 +167,6 @@ function themVaoGioHang(masp, tensp) {
 // ============================== TÀI KHOẢN ============================
 
 // Hàm get set cho người dùng hiện tại đã đăng nhập
-function getCurrentUser() {
-    return JSON.parse(window.localStorage.getItem('CurrentUser')); // Lấy dữ liệu từ localstorage
-}
 
 function setCurrentUser(u) {
     window.localStorage.setItem('CurrentUser', JSON.stringify(u));
