@@ -41,7 +41,6 @@ function themVaoGioHang(masp, tensp) {
         });
     }
 
-    console.log('Updated user products:', user.products);
     animateCartNumber();
     addAlertBox('Đã thêm ' + tensp + ' vào giỏ.', '#17c671', '#fff', 3500);
 
@@ -57,7 +56,7 @@ function khoiTao() {
 
     // Set a specific user as the current user
     var defaultUser = {
-        username: "Nhom02",
+        username: "Nhom01",
         pass: "defaultPass",
         ho: "Default",
         ten: "User",
@@ -88,9 +87,9 @@ function getTongSoLuongSanPhamTrongGioHang(u) {
 }
 
 function setCurrentUser(u) {
-    console.log('setCurrentUser:', u);
     window.localStorage.setItem('CurrentUser', JSON.stringify(u));
 }
+
 function capNhat_ThongTin_CurrentUser() {
     var u = getCurrentUser();
     if (u) {
