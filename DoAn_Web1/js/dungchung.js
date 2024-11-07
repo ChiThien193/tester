@@ -12,11 +12,22 @@ function setListAdmin(l) {
 }
 
 
-// Hàm khởi tạo, tất cả các trang đều cần
 function khoiTao() {
     // get data từ localstorage
     list_products = getListProducts() || list_products;
     adminInfo = getListAdmin() || adminInfo;
+
+    // Set a specific user as the current user
+    var defaultUser = {
+        username: "defaultUser",
+        pass: "defaultPass",
+        ho: "Default",
+        ten: "User",
+        email: "default@example.com",
+        products: [],
+        donhang: []
+    };
+    setCurrentUser(defaultUser);
 
     setupEventTaiKhoan();
     capNhat_ThongTin_CurrentUser();
