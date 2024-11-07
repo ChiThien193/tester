@@ -16,7 +16,20 @@ function setListAdmin(l) {
 function khoiTao() {
     // get data từ localstorage
     list_products = getListProducts() || list_products;
+    list_products = getListProducts() || list_products;
     adminInfo = getListAdmin() || adminInfo;
+
+    // Set a specific user as the current user
+    var defaultUser = {
+        username: "defaultUser",
+        pass: "defaultPass",
+        ho: "Default",
+        ten: "User",
+        email: "default@example.com",
+        products: [],
+        donhang: []
+    };
+    setCurrentUser();
 
     setupEventTaiKhoan();
     capNhat_ThongTin_CurrentUser();
