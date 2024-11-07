@@ -75,7 +75,9 @@ function capNhat_ThongTin_CurrentUser() {
             .classList.remove('hide');
     }
 }
-
+function setCurrentUser(u) {
+    window.localStorage.setItem('CurrentUser', JSON.stringify(u));
+}
 
 // Hàm khởi tạo, tất cả các trang đều cần
 function khoiTao() {
@@ -85,7 +87,7 @@ function khoiTao() {
 
     // Set a specific user as the current user
     var defaultUser = {
-        username: "Nhom005",
+        username: "Nhom05",
         pass: "defaultPass",
         ho: "Default",
         ten: "User",
